@@ -1,12 +1,13 @@
-import BookingForm from './components/BookingForm/BookingForm/BookingForm'
-import './App.css'
+import React from 'react';
+import BookingForm from './components/BookingForm/BookingForm';
+import './App.css';
 
 function App() {
   return (
-    <div className='container'>
+    <div>
       <BookingForm />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

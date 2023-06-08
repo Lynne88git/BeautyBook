@@ -1,0 +1,78 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import url('https://fonts.cdnfonts.com/css/century-gothic-paneuropean');
+
+/* Center the form within its container */
+.booking-form-container {
+  width: 33.33%;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the service list */
+.service-list {
+  margin-bottom: 1rem;
+}
+
+.service-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.service-list li p {
+  margin: 0;
+}
+
+/* Style the esthetician cards */
+.esthetician-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.esthetician-card img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.esthetician-card p {
+  margin: 0;
+  margin-top: 0.5rem;
+}
+
+/* Style the time slots */
+.time-slots {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.time-slot-button {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Style the confirmation message */
+.confirmation-message {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* Add custom styles for media queries */
+@media (max-width: 768px) {
+  .booking-form-container {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .esthetician-card {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+}

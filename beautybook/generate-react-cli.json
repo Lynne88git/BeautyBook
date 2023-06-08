@@ -1,9 +1,9 @@
 {
   "usesTypeScript": true,
   "usesStyledComponents": false,
-  "usesCssModule": true,
+  "usesCssModule": false,
   "cssPreprocessor": "css",
-  "testLibrary": "Testing Library",
+  "testLibrary": "None",
   "component": {
     "default": {
       "path": "src/components",
