@@ -5,7 +5,18 @@
 
 body {
   margin: 0;
-  font-family: 'Century Gothic Paneuropean', sans-serif;
+  font-family: 'Century Gothic Paneuropean', sans-serif !important;
+  background: rgba(133, 104, 73, 0.33);
+  background-repeat: no-repeat;
+  background-size: cover;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.btn-primary {
+  background-color: rgba(133, 104, 73, 0.9);
+}
+
+.btn-primary:hover {
+  background-color: rgba(133, 104, 73, 1);
 }
