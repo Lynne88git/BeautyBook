@@ -11,6 +11,8 @@ import esthetician4 from '../../../assets/images/77.jpg';
 import esthetician5 from '../../../assets/images/38.jpg';
 import TimeSlots from '../TimeSlots/TimeSlots';
 import Estheticians from '../Estheticians/Estheticians';
+import Services from '../Services/Services';
+import CostCalculator from '../CostCalculator/CostCalculator';
 
 const BookingForm: React.FC = () => {
   const [page, setPage] = useState(1);
@@ -18,6 +20,7 @@ const BookingForm: React.FC = () => {
   const [selectedEsthetician, setSelectedEsthetician] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
+  const [serviceSelected, setServiceSelected] = useState(false);
 
   const spaName = 'Elysian Spa & Wellness';
   const spaAddress = '7 Serenity Lane, Imory City, 0801';
@@ -65,7 +68,15 @@ const BookingForm: React.FC = () => {
 
   const handleServiceSelection = (service: string) => {
     setSelectedService(service);
-    setPage(2);
+    setServiceSelected(true);
+  };
+
+  const handleContinue = () => {
+    if (serviceSelected) {
+      setPage(2);
+    } else {
+      // Display an error message or perform any other necessary actions
+    }
   };
 
   const handleEstheticianSelection = (esthetician: string) => {
@@ -83,6 +94,7 @@ const BookingForm: React.FC = () => {
 
   const handleBookingConfirmation = () => {
     // TODO: Handle booking confirmation, e.g., send a request to the backend API
+    console.log('Booking Confirmation');
   };
 
   return (
@@ -99,29 +111,16 @@ const BookingForm: React.FC = () => {
               <>
                 <h2 className="text-xl font-bold mb-4">{spaName}</h2>
                 <p className="text-gray-600 mb-4">{spaAddress}</p>
-                <h3 className="text-lg font-bold mb-4">Services</h3>
-                <ul className="mb-4">
-                  {services.map((service, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center justify-between mb-2"
-                    >
-                      <div>
-                        <p className="font-bold">{service.name}</p>
-                        <p className="text-sm text-gray-600">{service.time}</p>
-                      </div>
-                      <div>
-                        <p className="font-bold">${service.price}</p>
-                      </div>
-                      <button
-                        className="btn-primary text-white px-4 py-2 rounded"
-                        onClick={() => handleServiceSelection(service.name)}
-                      >
-                        Book it!
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                <Services
+                  services={services}
+                  handleServiceSelection={handleServiceSelection}
+                />
+                <button
+                  className="btn-primary-outline mt-16 px-4 py-2 rounded float-right"
+                  onClick={handleContinue}
+                >
+                  Continue
+                </button>
               </>
             )}
 
@@ -144,13 +143,14 @@ const BookingForm: React.FC = () => {
                   </div>
                 </div>
                 <button
-                  className="btn-primary text-white px-4 py-2 rounded float-right"
+                  className="btn-primary-outline mt-16 px-4 py-2 rounded float-right"
                   onClick={handleBookingConfirmation}
                 >
-                  Book it!
+                  Book My Appointment
                 </button>
                 <p className="font-bold float-left mr-4">
                   Total Cost: {/* Calculate and display the total cost */}
+                  <CostCalculator />
                 </p>
               </>
             )}
