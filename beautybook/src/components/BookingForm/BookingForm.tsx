@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import Calendar from '../Calendar/Calendar';
 import Logo from '../../../assets/images/logo.png';
-import { IService } from '../Interfaces/iServices';
-import { IEstheticians } from '../Interfaces/iEstheticians';
+import { IService } from '../../Interfaces/iServices';
+import { IEstheticians } from '../../Interfaces/iEstheticians';
 import './BookingForm.css';
 import esthetician1 from '../../../assets/images/75.jpg';
 import esthetician2 from '../../../assets/images/30.jpg';
 import esthetician3 from '../../../assets/images/5.jpg';
 import esthetician4 from '../../../assets/images/77.jpg';
 import esthetician5 from '../../../assets/images/38.jpg';
+import TimeSlots from '../TimeSlots/TimeSlots';
+import Estheticians from '../Estheticians/Estheticians';
 
 const BookingForm: React.FC = () => {
   const [page, setPage] = useState(1);
@@ -124,55 +127,29 @@ const BookingForm: React.FC = () => {
 
             {page === 2 && (
               <>
-                <h2 className="text-xl font-bold mb-4">Estheticians</h2>
-                <div className="flex mb-4">
-                  {estheticians.map((esthetician, index) => (
-                    <div
-                      key={index}
-                      className="flex flex-col items-center mr-4"
-                    >
-                      <img
-                        src={esthetician.avatar.src}
-                        alt={esthetician.name}
-                        className="w-16 h-16 rounded-full mb-2"
-                      />
-                      <p>{esthetician.name}</p>
-                      <p>{esthetician.lastName}</p>
-                      <button
-                        className={`${
-                          selectedEsthetician === esthetician.name
-                            ? 'btn-primary text-white'
-                            : 'bg-gray-300 text-gray-600'
-                        } px-2 py-1 rounded mt-2`}
-                        onClick={() =>
-                          handleEstheticianSelection(esthetician.name)
-                        }
-                      >
-                        Select
-                      </button>
-                    </div>
-                  ))}
+                <div className="mb-4">
+                  <Estheticians
+                    estheticians={estheticians}
+                    selectedEsthetician={selectedEsthetician}
+                    handleEstheticianSelection={handleEstheticianSelection}
+                  />
                 </div>
-
-                <h2 className="text-xl font-bold mb-4">Calendar</h2>
-                {/* Calendar component goes here */}
-                <button className="btn-primary text-white px-4 py-2 rounded mb-4">
-                  Show Month
-                </button>
+                <Calendar />
 
                 {/* Time slots */}
-                <h2 className="text-xl font-bold mb-2">Available Times</h2>
-                <div className="flex flex-wrap">
-                  {/* Render time slots as buttons */}
+                <div className="container py-12">
+                  <h2 className="text-xl font-bold mb-2">Available Times</h2>
+                  <div className="flex flex-wrap">
+                    <TimeSlots />
+                  </div>
                 </div>
-
                 <button
                   className="btn-primary text-white px-4 py-2 rounded float-right"
                   onClick={handleBookingConfirmation}
                 >
                   Book it!
                 </button>
-                <p className="font-bold float-right mr-4">
+                <p className="font-bold float-left mr-4">
                   Total Cost: {/* Calculate and display the total cost */}
                 </p>
               </>
