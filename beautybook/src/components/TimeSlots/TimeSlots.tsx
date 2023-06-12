@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { startOfDay, addMinutes, format } from 'date-fns';
+import { iTimeSlotsProps } from '../../Interfaces/iTimeSlotsProp';
 
-function TimeSlots() {
+function TimeSlots({ handleTimeSelection }: iTimeSlotsProps) {
+  const [selectedTime, setSelectedTime] = useState('');
+
   const generateTimeSlots = () => {
     const start = addMinutes(startOfDay(new Date()), 8 * 60); // Start from 08:00 current day
     const end = addMinutes(startOfDay(new Date()), 18 * 60); // End at 18:00 same day
@@ -20,13 +23,24 @@ function TimeSlots() {
 
   const timeSlots = generateTimeSlots();
 
+  const handleTimeSlotClick = (
+    timeSlot: string,
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    setSelectedTime(timeSlot);
+    handleTimeSelection(timeSlot, event);
+  };
+
   return (
     <div>
       <label htmlFor="timeSlot">Select a time slot:</label>
       <div>
         {timeSlots.map((timeSlot, index) => (
-          // <button key={index} onClick={() => handleTimeSlotClick(timeSlot)}>
-          <button className="btn-primary text-white px-4 py-1 rounded-full my-2 mr-4">
+          <button
+            className="btn-primary text-white px-4 py-1 rounded-full my-2 mr-4"
+            key={index}
+            onClick={(event) => handleTimeSlotClick(timeSlot, event)}
+          >
             {timeSlot}
           </button>
         ))}

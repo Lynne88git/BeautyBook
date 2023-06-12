@@ -10,7 +10,10 @@ import './Estheticians.css';
 interface EstheticiansProps {
   estheticians: IEstheticians[];
   selectedEsthetician: string;
-  handleEstheticianSelection: (esthetician: string) => void;
+  handleEstheticianSelection: (
+    esthetician: string,
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => void;
 }
 
 const Estheticians: React.FC<EstheticiansProps> = ({
@@ -26,18 +29,19 @@ const Estheticians: React.FC<EstheticiansProps> = ({
           <div key={index} className="flex flex-col items-center mb-4 w-1/5">
             <img
               src={esthetician.avatar.src}
-              alt={esthetician.name}
+              alt={`${esthetician.name} ${esthetician.lastName}`}
               className="w-16 h-16 rounded-full mb-2"
             />
             <p className="text-left">{esthetician.name}</p>
             <p className="text-left">{esthetician.lastName}</p>
             <button
-              className={`${
-                selectedEsthetician === esthetician.name
-                  ? 'btn-primary text-white'
-                  : 'bg-gray-300 text-gray-600'
-              } px-2 py-1 rounded mt-2`}
-              onClick={() => handleEstheticianSelection(esthetician.name)}
+              className="btn-taupe mt-4 px-4 py-1 rounded"
+              onClick={(event) =>
+                handleEstheticianSelection(
+                  `${esthetician.name} ${esthetician.lastName}`,
+                  event,
+                )
+              }
             >
               Select
             </button>

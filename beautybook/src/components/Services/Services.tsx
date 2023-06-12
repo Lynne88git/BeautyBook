@@ -4,7 +4,10 @@ import './Services.css';
 
 interface ServicesProps {
   services: IService[];
-  handleServiceSelection: (service: string) => void;
+  handleServiceSelection: (
+    serviceName: string,
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => void;
 }
 
 const Services: React.FC<ServicesProps> = ({
@@ -26,7 +29,7 @@ const Services: React.FC<ServicesProps> = ({
             </div>
             <button
               className="btn-primary text-white px-4 py-2 rounded"
-              onClick={() => handleServiceSelection(service.name)}
+              onClick={(event) => handleServiceSelection(service.name, event)}
             >
               Book it!
             </button>

@@ -13,6 +13,7 @@ import TimeSlots from '../TimeSlots/TimeSlots';
 import Estheticians from '../Estheticians/Estheticians';
 import Services from '../Services/Services';
 import CostCalculator from '../CostCalculator/CostCalculator';
+import { format } from 'date-fns';
 
 const BookingForm: React.FC = () => {
   const [page, setPage] = useState(1);
@@ -21,6 +22,8 @@ const BookingForm: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [serviceSelected, setServiceSelected] = useState(false);
+  const [selectedServices, setSelectedServices] = useState<IService[]>([]);
+  const [fullSelectionCompleted, setFullSelectionCompleted] = useState(false);
 
   const spaName = 'Elysian Spa & Wellness';
   const spaAddress = '7 Serenity Lane, Imory City, 0801';
@@ -66,12 +69,27 @@ const BookingForm: React.FC = () => {
     return image;
   }
 
-  const handleServiceSelection = (service: string) => {
-    setSelectedService(service);
-    setServiceSelected(true);
+  const handleServiceSelection = (
+    serviceName: string,
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+    const selectedService = services.find(
+      (service) => service.name === serviceName,
+    );
+    if (selectedService) {
+      setSelectedServices((prevSelectedServices) => [
+        ...prevSelectedServices,
+        selectedService,
+      ]);
+      setServiceSelected(true);
+    } else {
+      // Handle the case where the selected service is not found
+    }
   };
 
-  const handleContinue = () => {
+  const handleContinue = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     if (serviceSelected) {
       setPage(2);
     } else {
@@ -79,27 +97,48 @@ const BookingForm: React.FC = () => {
     }
   };
 
-  const handleEstheticianSelection = (esthetician: string) => {
+  const handleEstheticianSelection = (
+    esthetician: string,
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
     setSelectedEsthetician(esthetician);
-    setPage(3);
+    setFullSelectionCompleted(selectedTime !== '');
   };
 
-  const handleDateSelection = (date: string) => {
+  const handleDateSelection = (
+    date: string,
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
     setSelectedDate(date);
+    setFullSelectionCompleted(
+      selectedEsthetician !== '' && selectedTime !== '',
+    );
   };
 
-  const handleTimeSelection = (time: string) => {
+  const handleTimeSelection = (
+    time: string,
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
     setSelectedTime(time);
+    setFullSelectionCompleted(selectedEsthetician !== '');
   };
 
   const handleBookingConfirmation = () => {
     // TODO: Handle booking confirmation, e.g., send a request to the backend API
+    setPage(3);
     console.log('Booking Confirmation');
+    console.log('Selected Service:', selectedService);
+    console.log('Selected Esthetician:', selectedEsthetician);
+    console.log('Selected Date:', selectedDate);
+    console.log('Selected Time:', selectedTime);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="booking-form w-full px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+      <form className="booking-form w-full px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
         <div className="flex justify-center">
           <div className="container">
             <img
@@ -133,25 +172,37 @@ const BookingForm: React.FC = () => {
                     handleEstheticianSelection={handleEstheticianSelection}
                   />
                 </div>
-                <Calendar />
-
+                <Calendar handleDateSelection={handleDateSelection} />
+                {/* Selected Services */}
+                <div className="container py-12">
+                  <h2 className="text-xl font-bold mb-2">Selected Services</h2>
+                  <ul>
+                    {selectedServices.map((service) => (
+                      <li key={service.name}>
+                        {service.name} - ${service.price}
+                        <p className="text-sm text-gray-600">{service.time}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
                 {/* Time slots */}
                 <div className="container py-12">
                   <h2 className="text-xl font-bold mb-2">Available Times</h2>
                   <div className="flex flex-wrap">
-                    <TimeSlots />
+                    <TimeSlots handleTimeSelection={handleTimeSelection} />
                   </div>
+                </div>
+                <div className="font-bold float-left mr-4">
+                  Total Cost: {/* Calculate and display the total cost */}
+                  <CostCalculator />
                 </div>
                 <button
                   className="btn-primary-outline mt-16 px-4 py-2 rounded float-right"
                   onClick={handleBookingConfirmation}
+                  disabled={!fullSelectionCompleted}
                 >
                   Book My Appointment
                 </button>
-                <p className="font-bold float-left mr-4">
-                  Total Cost: {/* Calculate and display the total cost */}
-                  <CostCalculator />
-                </p>
               </>
             )}
 
@@ -160,9 +211,15 @@ const BookingForm: React.FC = () => {
                 <h2 className="text-xl font-bold mb-4">Success!</h2>
                 <p>Your booking details:</p>
                 <p>
-                  Service: {selectedService} <br />
+                  Services:
+                  <br />
+                  {selectedServices.map((service) => (
+                    <span key={service.name}>
+                      {service.name} <br />
+                    </span>
+                  ))}
                   Esthetician: {selectedEsthetician} <br />
-                  Date: {selectedDate} <br />
+                  Date: {format(new Date(selectedDate), 'd MMMM yyyy')} <br />
                   Time: {selectedTime}
                 </p>
                 <p className="text-green-500 mt-4">Booking confirmed!</p>
@@ -170,7 +227,7 @@ const BookingForm: React.FC = () => {
             )}
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

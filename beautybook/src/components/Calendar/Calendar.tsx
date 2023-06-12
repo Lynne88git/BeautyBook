@@ -13,12 +13,13 @@ import {
   startOfToday,
 } from 'date-fns';
 import { Fragment, useState } from 'react';
+import { iDateProps } from '../../Interfaces/iDateProps';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Example() {
+export default function Calendar({ handleDateSelection }: iDateProps) {
   let today = startOfToday();
   let [selectedDay, setSelectedDay] = useState(today);
   let [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));
@@ -38,6 +39,14 @@ export default function Example() {
     let firstDayNextMonth = add(firstDayCurrentMonth, { months: 1 });
     setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'));
   }
+
+  const handleDaySelection = (
+    day: Date,
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    setSelectedDay(day);
+    handleDateSelection(day.toISOString(), event);
+  };
 
   return (
     <div className="pt-12">
@@ -86,7 +95,7 @@ export default function Example() {
                 >
                   <button
                     type="button"
-                    onClick={() => setSelectedDay(day)}
+                    onClick={(event) => handleDaySelection(day, event)}
                     className={classNames(
                       isEqual(day, selectedDay) && 'text-white',
                       !isEqual(day, selectedDay) && isToday(day) && 'text-gold',
