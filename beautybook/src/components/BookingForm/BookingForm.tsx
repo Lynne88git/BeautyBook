@@ -103,7 +103,7 @@ const BookingForm: React.FC = () => {
   ) => {
     event.preventDefault();
     setSelectedEsthetician(esthetician);
-    setFullSelectionCompleted(selectedTime !== '');
+    setFullSelectionCompleted(selectedTime !== '' && selectedDate !== '');
   };
 
   const handleDateSelection = (
@@ -123,7 +123,9 @@ const BookingForm: React.FC = () => {
   ) => {
     event.preventDefault();
     setSelectedTime(time);
-    setFullSelectionCompleted(selectedEsthetician !== '');
+    setFullSelectionCompleted(
+      selectedEsthetician !== '' && selectedDate !== '',
+    );
   };
 
   const handleBookingConfirmation = () => {
@@ -132,7 +134,10 @@ const BookingForm: React.FC = () => {
     console.log('Booking Confirmation');
     console.log('Selected Service:', selectedService);
     console.log('Selected Esthetician:', selectedEsthetician);
-    console.log('Selected Date:', selectedDate);
+    console.log(
+      'Selected Date:',
+      format(new Date(selectedDate), 'd MMMM yyyy'),
+    );
     console.log('Selected Time:', selectedTime);
   };
 

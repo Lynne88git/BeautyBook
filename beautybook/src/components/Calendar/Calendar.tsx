@@ -1,4 +1,5 @@
 import React from 'react';
+import AppointmentDetails from '../AppointmentDetails/AppointmentDetails';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import {
   add,
@@ -48,6 +49,16 @@ export default function Calendar({ handleDateSelection }: iDateProps) {
     handleDateSelection(day.toISOString(), event);
   };
 
+  // const getAppointmentByDate = (date: Date) => {
+  //   // Find the appointment that matches the selected date
+  //   return appointments.find((appointment) =>
+  //     isSameDay(
+  //       parse(appointment.startDatetime, 'yyyy-MM-dd', new Date()),
+  //       date,
+  //     ),
+  //   );
+  // };
+
   return (
     <div className="pt-12">
       <h2 className="text-xl font-bold mb-4">Calendar</h2>
@@ -85,11 +96,11 @@ export default function Calendar({ handleDateSelection }: iDateProps) {
               <div>S</div>
             </div>
             <div className="grid grid-cols-7 mt-2 text-sm">
-              {days.map((day, dayIdx) => (
+              {days.map((day, dayIndex) => (
                 <div
                   key={day.toString()}
                   className={classNames(
-                    dayIdx === 0 && colStartClasses[getDay(day)],
+                    dayIndex === 0 && colStartClasses[getDay(day)],
                     'py-1.5',
                   )}
                 >
@@ -138,7 +149,13 @@ export default function Calendar({ handleDateSelection }: iDateProps) {
                 {format(selectedDay, 'MMM dd, yyy')}
               </time>
             </h2>
-            <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500"></ol>
+            {/* <ol className="mt-4 space-y-1 text-sm leading-6 text-gray-500">
+              {isSameDay(day, selectedDay) ? (
+                <AppointmentDetails appointment={getAppointmentByDate(day)} />
+              ) : (
+                <p>No appointment for today.</p>
+              )}
+            </ol> */}
           </section>
         </div>
       </div>
