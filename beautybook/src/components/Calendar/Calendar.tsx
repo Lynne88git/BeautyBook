@@ -1,5 +1,5 @@
 import React from 'react';
-import AppointmentDetails from '../AppointmentDetails/AppointmentDetails';
+//import AppointmentDetails from '../AppointmentDetails/AppointmentDetails';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import {
   add,

@@ -2,40 +2,35 @@ version: "3.8"
 services:
   frontend:
     build:
-      context: ./frontend-app-directory
+      context: ./beautybook
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    volumes:
-      - "./frontend-app-directory:/app"
+      - "80:80"
     depends_on:
       - backend
   backend:
     build:
-      context: ./backend-app-directory
+      context: ./backend-beautybook
       dockerfile: Dockerfile
     ports:
       - "8000:80"
-    volumes:
-      - "./backend-app-directory:/var/www/html"
     environment:
       - DB_HOST=db
       - DB_PORT=3306
       - DB_DATABASE=beautybook_db
-      - DB_USERNAME=myadmin@localhost
+      - DB_USERNAME=myadmin
       - DB_PASSWORD=1234
     depends_on:
       - db
   db:
     image: mysql:latest
-    ports:
-      - "3306:3306"
-    volumes:
-      - "db_data:/var/lib/mysql"
+    restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=1234
       - MYSQL_DATABASE=beautybook_db
-      - MYSQL_USER=admin@localhost
+      - MYSQL_USER=myadmin
       - MYSQL_PASSWORD=1234
-volumes:
-  db_data:
+      - MYSQL_ROOT_PASSWORD=1234
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql-data:/var/lib/mysql
